@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Retail Sales Performance Analysis | Subapriya Radhakrishnan</title>
+<style>
+:root{--bg:#f7f8fb;--card:#fff;--tx:#1b2333;--mu:#5b6578;--ac:#0b2a6f;--bd:#e2e6ef;--bar:#2f5fd0;--bad:#c0392b;--good:#1e8e5a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10141d;--card:#181e2b;--tx:#e8ecf5;--mu:#9aa6bd;--ac:#8fb0ff;--bd:#2a3347;--bar:#6c93ff;--bad:#ff7a6b;--good:#4cc790;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10141d;--card:#181e2b;--tx:#e8ecf5;--mu:#9aa6bd;--ac:#8fb0ff;--bd:#2a3347;--bar:#6c93ff;--bad:#ff7a6b;--good:#4cc790;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+main{max-width:860px;margin:0 auto;padding:24px 18px 48px}
+h1{font-size:1.7rem;line-height:1.25;margin:.2em 0;color:var(--ac)}h2{font-size:1.2rem;margin:2rem 0 .6rem;color:var(--ac);border-bottom:2px solid var(--bd);padding-bottom:.3rem}
+.sub{color:var(--mu);margin:0}.tags span{display:inline-block;background:var(--card);border:1px solid var(--bd);border-radius:99px;padding:2px 12px;margin:8px 6px 0 0;font-size:.85rem}
+.note{background:var(--card);border:1px solid var(--bd);border-left:4px solid var(--ac);border-radius:8px;padding:10px 14px;font-size:.92rem;color:var(--mu);margin-top:14px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.k{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px}.k b{display:block;font-size:1.5rem;color:var(--ac)}.k small{color:var(--mu)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px;margin:10px 0}
+.cols{display:flex;align-items:flex-end;gap:5px;height:150px;padding-top:8px}.cols div{flex:1;text-align:center;font-size:.7rem;color:var(--mu);display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.cols i{display:block;background:var(--bar);border-radius:4px 4px 0 0}
+.row{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:.92rem}.row span.l{width:130px;flex:none}.row .t{flex:1;background:var(--bd);border-radius:5px;height:14px;overflow:hidden}.row .t i{display:block;height:100%;background:var(--bar)}.row span.v{width:150px;flex:none;text-align:right;color:var(--mu)}
+.neg{color:var(--bad)}.pos{color:var(--good)}
+pre{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:12px;overflow-x:auto;font-size:.82rem;line-height:1.5}
+.scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{padding:6px 10px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}th{color:var(--mu)}
+ul{padding-left:1.2rem}li{margin:.35rem 0}
+@media(max-width:560px){.row span.l{width:92px}.row span.v{width:112px;font-size:.8rem}}
+@media print{h2{break-after:avoid}.card,.k,pre,.note{break-inside:avoid}body{background:#fff}}
+</style></head><body><main>
+<p class="sub">Data Analyst Portfolio | Subapriya Radhakrishnan</p>
+<h1>Retail Sales Performance Analysis (2024)</h1>
+<p class="sub">I wanted to find out where this business makes its profit and where it quietly loses it.</p>
+<div class="tags"><span>SQL</span><span>Advanced Excel</span><span>Power BI</span><span>Data Cleaning</span><span>KPI Analysis</span></div>
+<div class="note"><b>About the data:</b> This is a practice project. The dataset is simulated (1,500 orders from 2024) and was prepared for learning, so it does not belong to any real company.</div>
+
+<h2>1. Business problem</h2>
+<p>Sales in this retail business looked healthy, but the overall profit margin was only 14.5%. I wanted to understand what was pulling the margin down and what the business could do about it.</p>
+
+<h2>2. Headline KPIs</h2>
+<div class="kpis">
+<div class="k"><b>₹13.35 L</b><small>Total sales</small></div>
+<div class="k"><b>₹1.94 L</b><small>Total profit</small></div>
+<div class="k"><b>14.5%</b><small>Profit margin</small></div>
+<div class="k"><b>1,500</b><small>Orders</small></div>
+<div class="k"><b>₹890</b><small>Avg. order value</small></div>
+</div>
+
+<h2>3. Approach</h2>
+<ul>
+<li><b>Cleaning in Excel:</b> I checked for duplicates and blanks, fixed the date format, and confirmed that sales = price × quantity × (1 − discount) for every row.</li>
+<li><b>Analysis in SQL:</b> I grouped sales, profit and margin by month, region, category, segment and discount level.</li>
+<li><b>Reporting in Power BI:</b> I built KPI cards, a monthly trend and breakdown charts, with slicers for region and category.</li>
+</ul>
+
+<h2>4. Findings</h2>
+<div class="card"><b>Monthly sales trend (₹ thousands)</b>
+<div class="cols">
+<div><i style="height:57%"></i>Jan</div><div><i style="height:54%"></i>Feb</div><div><i style="height:60%"></i>Mar</div><div><i style="height:61%"></i>Apr</div><div><i style="height:54%"></i>May</div><div><i style="height:51%"></i>Jun</div><div><i style="height:58%"></i>Jul</div><div><i style="height:57%"></i>Aug</div><div><i style="height:76%"></i>Sep</div><div><i style="height:85%"></i>Oct</div><div><i style="height:100%"></i>Nov</div><div><i style="height:74%"></i>Dec</div>
+</div>
+<p class="sub">Sales jump from September and peak in November, about 1.8 times the Jan to Aug monthly average. The margin goes the other way, dropping to 13.8% in Q4 from 15.5% in Q3.</p></div>
+
+<div class="card"><b>Sales vs profit margin by category</b>
+<div class="row"><span class="l">Technology</span><div class="t"><i style="width:57%"></i></div><span class="v">57% of sales | 20.3% margin</span></div>
+<div class="row"><span class="l">Furniture</span><div class="t"><i style="width:38%"></i></div><span class="v">38% of sales | <span class="neg">4.7% margin</span></span></div>
+<div class="row"><span class="l">Office Supplies</span><div class="t"><i style="width:5%"></i></div><span class="v">5% of sales | 23.9% margin</span></div>
+<p class="sub">The surprise for me was Furniture: it brings in 38% of sales but only 12% of profit.</p></div>
+
+<div class="card"><b>Profit margin by discount level</b>
+<div class="row"><span class="l">No discount</span><div class="t"><i style="width:100%"></i></div><span class="v pos">21.7%</span></div>
+<div class="row"><span class="l">5%</span><div class="t"><i style="width:80%"></i></div><span class="v">17.4%</span></div>
+<div class="row"><span class="l">10%</span><div class="t"><i style="width:59%"></i></div><span class="v">12.9%</span></div>
+<div class="row"><span class="l">20%</span><div class="t"><i style="width:17%"></i></div><span class="v neg">3.7%</span></div>
+<div class="row"><span class="l">30%</span><div class="t"><i style="width:2%"></i></div><span class="v neg">−4.8% (loss)</span></div>
+<p class="sub">Orders with a 20% or higher discount are about 22% of sales, yet they add almost nothing to profit.</p></div>
+
+<div class="card scroll"><b>Region summary</b>
+<table><tr><th>Region</th><th>Sales (₹)</th><th>Profit (₹)</th><th>Margin</th><th>Orders</th></tr>
+<tr><td>South</td><td>4,15,009</td><td>59,747</td><td>14.4%</td><td>467</td></tr>
+<tr><td>West</td><td>3,46,012</td><td>52,377</td><td>15.1%</td><td>393</td></tr>
+<tr><td>North</td><td>3,08,424</td><td>45,095</td><td>14.6%</td><td>344</td></tr>
+<tr><td>East</td><td>2,65,974</td><td>36,849</td><td>13.9%</td><td>296</td></tr></table>
+<p class="sub">South sells the most, West earns the best margin, and East is the weakest on both. The three customer segments were very close to each other (14.3% to 14.7% margin).</p></div>
+
+<h2>5. Sample SQL</h2>
+<pre>-- Margin by discount band
+SELECT discount,
+       ROUND(SUM(sales), 0)                      AS total_sales,
+       ROUND(SUM(profit), 0)                     AS total_profit,
+       ROUND(SUM(profit) * 100.0 / SUM(sales), 1) AS margin_pct,
+       COUNT(*)                                  AS orders
+FROM   retail_sales
+GROUP  BY discount
+ORDER  BY discount;
+
+-- Monthly sales and running total
+SELECT month, monthly_sales,
+       SUM(monthly_sales) OVER (ORDER BY month) AS running_sales
+FROM (
+  SELECT EXTRACT(MONTH FROM order_date) AS month,
+         SUM(sales) AS monthly_sales
+  FROM   retail_sales
+  GROUP  BY 1
+) m;</pre>
+
+<h2>6. What I would suggest</h2>
+<ul>
+<li><b>Limit discounts to 10%</b> unless a manager approves more, since 20% and above wipe out the margin.</li>
+<li><b>Look closely at Furniture pricing and costs.</b> It sells a lot but earns very little.</li>
+<li><b>Plan Q4 early</b> so the busy season is not driven by heavy discounts.</li>
+<li><b>Push Technology and Office Supplies,</b> which have the best margins.</li>
+<li><b>Check the East region</b> for pricing or cost problems.</li>
+</ul>
+
+<h2>7. Tools and files</h2>
+<p>Excel (cleaning, pivots), SQL (analysis), Power BI (dashboard). Dataset: <code>retail_sales_2024_sample.csv</code>.</p>
+</main></body></html>
